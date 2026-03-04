@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: transparent; }
+        #likeBtn { background: #000; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: transform 0.1s; }
+        #likeBtn:active { transform: scale(0.95); }
+        #count { margin-top: 10px; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <button id="likeBtn">❤️ Click to Like</button>
+    <div id="count">Total Likes: <span id="number">...</span></div>
+
+    <script>
+        const namespace = "saica-restaurant-unique-id"; // Change this to anything unique
+        const key = "secret-menu-likes";
+        const url = `https://api.countapi.xyz/hit/${namespace}/${key}`;
+        const getUrl = `https://api.countapi.xyz/get/${namespace}/${key}`;
+
+        // Get the current shared total
+        fetch(getUrl).then(res => res.json()).then(data => {
+            document.getElementById('number').innerText = data.value || 0;
+        });
+
+        // Update the total when clicked
+        document.getElementById('likeBtn').addEventListener('click', () => {
+            fetch(url).then(res => res.json()).then(data => {
+                document.getElementById('number').innerText = data.value;
+            });
+        });
+    </script>
+</body>
+</html>
